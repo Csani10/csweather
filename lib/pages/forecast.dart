@@ -1,3 +1,4 @@
+import 'package:csweather/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class ForecastPage extends StatelessWidget {
@@ -5,6 +6,11 @@ class ForecastPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text("Forecast"), centerTitle: true));
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.forecast),
+        centerTitle: true,
+      ),
+    );
   }
 }

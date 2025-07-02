@@ -12,6 +12,7 @@ class Weatherdata {
   String city = "";
   String iconCode = "01d";
   String look = "";
+  String desc = "";
   String unit = "cel";
   double temp = 6969;
   double tempMax = 6969;
@@ -87,7 +88,7 @@ double convertUnit(double kelvin) {
 
 Future<Weatherdata> getCurrentWeather(String city) async {
   final url = Uri.parse(
-    "${dotenv.env["API_URL"]}weather?q=$city&appid=${dotenv.env["API_KEY"]}",
+    "${dotenv.env["API_URL"]}weather?q=$city&appid=${dotenv.env["API_KEY"]}&lang=${localeNotifier.value.languageCode}",
   );
 
   try {
@@ -102,6 +103,7 @@ Future<Weatherdata> getCurrentWeather(String city) async {
       wData.tempMin = data["main"]["temp_min"];
       wData.feelslike = data["main"]["feels_like"];
       wData.look = data["weather"][0]["main"];
+      wData.desc = capitalize(data["weather"][0]["description"]);
       wData.city = city;
       wData.iconCode = data["weather"][0]["icon"];
       wData.jsonData = data;

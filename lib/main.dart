@@ -1,10 +1,11 @@
 import 'package:csweather/globals.dart';
+import 'package:csweather/l10n/app_localizations.dart';
 import 'package:csweather/pages/forecast.dart';
 import 'package:csweather/pages/settings.dart';
 import 'package:csweather/pages/today.dart';
-import 'package:csweather/types/weatherdata.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 Future<void> main() async {
   await dotenv.load();
@@ -49,13 +50,35 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "CsWeather",
-      debugShowCheckedModeBanner: false,
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      themeMode: _themeMode,
-      home: MainPage(),
+    return ValueListenableBuilder<Locale>(
+      valueListenable: localeNotifier,
+      builder: (builder, locale, _) {
+        return MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: AppLocalizations.supportedLocales,
+          localeResolutionCallback: (locale, supportedLocales) {
+            for (var supportedLocale in supportedLocales) {
+              if (supportedLocale.languageCode == locale?.languageCode) {
+                return supportedLocale;
+              }
+            }
+
+            return supportedLocales.first;
+          },
+          locale: locale,
+          title: "CsWeather",
+          debugShowCheckedModeBanner: false,
+          theme: lightTheme,
+          darkTheme: darkTheme,
+          themeMode: _themeMode,
+          home: MainPage(),
+        );
+      },
     );
   }
 }
@@ -73,7 +96,6 @@ class _MyWidgetState extends State<MainPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     pages = [TodayPage(), ForecastPage(), SettingsPage()];
   }
@@ -93,23 +115,23 @@ class _MyWidgetState extends State<MainPage> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.today),
-            label: "Today",
-            tooltip: "View today's weather",
+            label: AppLocalizations.of(context)?.today,
+            tooltip: AppLocalizations.of(context)?.today_tooltip,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month),
-            label: "Forecast",
-            tooltip: "View the weather for a week",
+            label: AppLocalizations.of(context)?.forecast,
+            tooltip: AppLocalizations.of(context)?.forecast_tooltip,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-            label: "Settings",
-            tooltip: "Edit app settings",
+            label: AppLocalizations.of(context)?.settings,
+            tooltip: AppLocalizations.of(context)?.settings_tooltip,
           ),
         ],
         onTap: onNavBarTap,
       ),
-      body: IndexedStack(children: pages, index: current_page),
+      body: IndexedStack(index: current_page, children: pages),
     );
   }
 }

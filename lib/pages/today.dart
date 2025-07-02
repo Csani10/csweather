@@ -1,4 +1,5 @@
 import 'package:csweather/globals.dart';
+import 'package:csweather/l10n/app_localizations.dart';
 import 'package:csweather/types/weatherdata.dart';
 import 'package:flutter/material.dart';
 import 'package:weather_icons/weather_icons.dart';
@@ -17,16 +18,29 @@ class _TodayPageState extends State<TodayPage> {
   void initState() {
     super.initState();
     _weatherDataFuture = _loadWeather();
+    setState(() {});
   }
 
   Future<Weatherdata> _loadWeather() async {
-    return await getCurrentWeather("Szombathely");
+    return await getCurrentWeather(cityController.text);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Today"), centerTitle: true),
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.today),
+        centerTitle: true,
+      ),
+      floatingActionButton: isDesktop
+          ? FloatingActionButton(
+              onPressed: () async {
+                _weatherDataFuture = _loadWeather();
+                setState(() {});
+              },
+              child: Icon(Icons.refresh),
+            )
+          : null,
       body: RefreshIndicator(
         onRefresh: () async {
           _weatherDataFuture = _loadWeather();
@@ -70,7 +84,7 @@ class _TodayPageState extends State<TodayPage> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 16.0),
                         child: Text(
-                          snapshot.data!.look,
+                          snapshot.data!.desc,
                           style: TextStyle(fontSize: 30),
                         ),
                       ),
@@ -116,7 +130,7 @@ class _TodayPageState extends State<TodayPage> {
                             valueListenable: unitNotifier,
                             builder: (context, unit, _) {
                               return Text(
-                                "Feels like: ${convertUnit(snapshot.data!.feelslike)}",
+                                "${AppLocalizations.of(context)!.feels_like} ${convertUnit(snapshot.data!.feelslike)}",
                                 style: TextStyle(fontSize: 20),
                               );
                             },
@@ -151,7 +165,7 @@ class _TodayPageState extends State<TodayPage> {
                             valueListenable: unitNotifier,
                             builder: (context, unit, _) {
                               return Text(
-                                "Max: ${convertUnit(snapshot.data!.tempMax)}",
+                                "${AppLocalizations.of(context)!.max} ${convertUnit(snapshot.data!.tempMax)}",
                                 style: TextStyle(fontSize: 20),
                               );
                             },
@@ -186,7 +200,7 @@ class _TodayPageState extends State<TodayPage> {
                             valueListenable: unitNotifier,
                             builder: (context, unit, _) {
                               return Text(
-                                "Min: ${convertUnit(snapshot.data!.tempMin)}",
+                                "${AppLocalizations.of(context)!.min} ${convertUnit(snapshot.data!.tempMin)}",
                                 style: TextStyle(fontSize: 20),
                               );
                             },
@@ -217,7 +231,7 @@ class _TodayPageState extends State<TodayPage> {
                     ],
                   );
                 } else {
-                  return Text("No data");
+                  return Text(AppLocalizations.of(context)!.nodata);
                 }
               },
             ),

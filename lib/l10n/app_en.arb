@@ -1,0 +1,21 @@
+{
+  "@@locale": "en",
+  "title": "CsWeather",
+  "settings": "Settings",
+  "feels_like": "Feels like:",
+  "max": "Max:",
+  "min": "Min:",
+  "today": "Today",
+  "forecast": "Forecast",
+  "theme": "Theme",
+  "light": "Light",
+  "dark": "Dark",
+  "city": "City",
+  "unit": "Unit:",
+  "today_tooltip": "View today's weather",
+  "forecast_tooltip": "View the weather for the next 7 days",
+  "settings_tooltip": "Edit app settings",
+  "lang": "Language: ",
+  "city_hint": "City name...",
+  "nodata": "No data"
+}

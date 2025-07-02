@@ -1,0 +1,21 @@
+{
+  "@@locale": "hu",
+  "title": "CsWeather",
+  "settings": "Beállítások",
+  "feels_like": "Ennyinek érezhető:",
+  "max": "Max:",
+  "min": "Min:",
+  "today": "Ma",
+  "forecast": "Előrejelzés",
+  "theme": "Téma",
+  "light": "Világos",
+  "dark": "Sötét",
+  "city": "Város:",
+  "unit": "Mérték:",
+  "today_tooltip": "A mai időjárás megtekintése",
+  "forecast_tooltip": "A következő 7 napnak az időjárásának megtekintése",
+  "settings_tooltip": "Alkalmazás beállításainak kezelése",
+  "lang": "Nyelv: ",
+  "city_hint": "Város neve...",
+  "nodata": "Nincs adat"
+}
