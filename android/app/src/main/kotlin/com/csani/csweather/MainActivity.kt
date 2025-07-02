@@ -1,4 +1,4 @@
-package com.example.csweather
+package com.csani.csweather
 
 import io.flutter.embedding.android.FlutterActivity
 
