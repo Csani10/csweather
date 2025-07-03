@@ -155,5 +155,6 @@ class _SettingsPageState extends State<SettingsPage> {
   void onLangSelected(Object? value) {
     print(value.runtimeType);
     localeNotifier.value = value as Locale;
+    saveSettings();
   }
 }
