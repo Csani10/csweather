@@ -66,185 +66,186 @@ class _ForecastPageState extends State<ForecastPage> {
                 ),
               );
             } else if (snapshot.hasData) {
-              return ListView(
-                children: <Widget>[
-                  for (WeatherData weatherData in snapshot.data!.forecastData)
-                    ExpansionTile(
-                      title: Text(
-                        DateFormat(
-                          "yyyy MM dd, EEEE, HH:mm",
-                          localeNotifier.value.languageCode,
-                        ).format(
-                          DateTime.fromMillisecondsSinceEpoch(
-                            weatherData.date * 1000,
-                          ),
+              return ListView.builder(
+                itemCount: snapshot.data!.forecastData.length,
+                itemBuilder: (context, index) {
+                  WeatherData weatherData = snapshot.data!.forecastData[index];
+                  return ExpansionTile(
+                    title: Text(
+                      DateFormat(
+                        "yyyy. MMM. dd., EEEE, HH:mm",
+                        localeNotifier.value.languageCode,
+                      ).format(
+                        DateTime.fromMillisecondsSinceEpoch(
+                          weatherData.date * 1000,
                         ),
                       ),
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.all(1),
-                          child: Text(
-                            cityController.text,
-                            style: TextStyle(fontSize: 35),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(16),
-                          child: Icon(
-                            iconCodeToIconData(weatherData.details[0].icon),
-                            size: 128,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 16.0),
-                          child: Text(
-                            weatherData.details[0].weatherLongDescription,
-                            style: TextStyle(fontSize: 30),
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ValueListenableBuilder(
-                              valueListenable: unitNotifier,
-                              builder: (context, unit, _) {
-                                return Text(
-                                  "${convertUnit(weatherData.temperature.currentTemperature)}",
-                                  style: TextStyle(fontSize: 25),
-                                );
-                              },
-                            ),
-                            ValueListenableBuilder(
-                              valueListenable: unitNotifier,
-                              builder: (context, unit, _) {
-                                switch (unit) {
-                                  case "cel":
-                                    return Icon(WeatherIcons.celsius, size: 30);
-                                  case "fah":
-                                    return Icon(
-                                      WeatherIcons.fahrenheit,
-                                      size: 30,
-                                    );
-                                  case "kel":
-                                    return Text(
-                                      " K",
-                                      style: TextStyle(fontSize: 25),
-                                    );
-                                  default:
-                                    return Icon(WeatherIcons.celsius, size: 30);
-                                }
-                              },
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ValueListenableBuilder(
-                              valueListenable: unitNotifier,
-                              builder: (context, unit, _) {
-                                return Text(
-                                  "${AppLocalizations.of(context)!.feels_like} ${convertUnit(weatherData.temperature.feelsLike)}",
-                                  style: TextStyle(fontSize: 20),
-                                );
-                              },
-                            ),
-                            ValueListenableBuilder(
-                              valueListenable: unitNotifier,
-                              builder: (context, unit, _) {
-                                switch (unit) {
-                                  case "cel":
-                                    return Icon(WeatherIcons.celsius, size: 25);
-                                  case "fah":
-                                    return Icon(
-                                      WeatherIcons.fahrenheit,
-                                      size: 25,
-                                    );
-                                  case "kel":
-                                    return Text(
-                                      " K",
-                                      style: TextStyle(fontSize: 20),
-                                    );
-                                  default:
-                                    return Icon(WeatherIcons.celsius, size: 25);
-                                }
-                              },
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ValueListenableBuilder(
-                              valueListenable: unitNotifier,
-                              builder: (context, unit, _) {
-                                return Text(
-                                  "${AppLocalizations.of(context)!.max} ${convertUnit(weatherData.temperature.tempMax)}",
-                                  style: TextStyle(fontSize: 20),
-                                );
-                              },
-                            ),
-                            ValueListenableBuilder(
-                              valueListenable: unitNotifier,
-                              builder: (context, unit, _) {
-                                switch (unit) {
-                                  case "cel":
-                                    return Icon(WeatherIcons.celsius, size: 25);
-                                  case "fah":
-                                    return Icon(
-                                      WeatherIcons.fahrenheit,
-                                      size: 25,
-                                    );
-                                  case "kel":
-                                    return Text(
-                                      " K",
-                                      style: TextStyle(fontSize: 20),
-                                    );
-                                  default:
-                                    return Icon(WeatherIcons.celsius, size: 25);
-                                }
-                              },
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ValueListenableBuilder(
-                              valueListenable: unitNotifier,
-                              builder: (context, unit, _) {
-                                return Text(
-                                  "${AppLocalizations.of(context)!.min} ${convertUnit(weatherData.temperature.tempMin)}",
-                                  style: TextStyle(fontSize: 20),
-                                );
-                              },
-                            ),
-                            ValueListenableBuilder(
-                              valueListenable: unitNotifier,
-                              builder: (context, unit, _) {
-                                switch (unit) {
-                                  case "cel":
-                                    return Icon(WeatherIcons.celsius, size: 25);
-                                  case "fah":
-                                    return Icon(
-                                      WeatherIcons.fahrenheit,
-                                      size: 25,
-                                    );
-                                  case "kel":
-                                    return Text(
-                                      " K",
-                                      style: TextStyle(fontSize: 20),
-                                    );
-                                  default:
-                                    return Icon(WeatherIcons.celsius, size: 25);
-                                }
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
                     ),
-                ],
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(1),
+                        child: Text(
+                          cityController.text,
+                          style: TextStyle(fontSize: 35),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Icon(
+                          iconCodeToIconData(weatherData.details[0].icon),
+                          size: 128,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 16.0),
+                        child: Text(
+                          weatherData.details[0].weatherLongDescription,
+                          style: TextStyle(fontSize: 30),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ValueListenableBuilder(
+                            valueListenable: unitNotifier,
+                            builder: (context, unit, _) {
+                              return Text(
+                                "${convertUnit(weatherData.temperature.currentTemperature)}",
+                                style: TextStyle(fontSize: 25),
+                              );
+                            },
+                          ),
+                          ValueListenableBuilder(
+                            valueListenable: unitNotifier,
+                            builder: (context, unit, _) {
+                              switch (unit) {
+                                case "cel":
+                                  return Icon(WeatherIcons.celsius, size: 30);
+                                case "fah":
+                                  return Icon(
+                                    WeatherIcons.fahrenheit,
+                                    size: 30,
+                                  );
+                                case "kel":
+                                  return Text(
+                                    " K",
+                                    style: TextStyle(fontSize: 25),
+                                  );
+                                default:
+                                  return Icon(WeatherIcons.celsius, size: 30);
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ValueListenableBuilder(
+                            valueListenable: unitNotifier,
+                            builder: (context, unit, _) {
+                              return Text(
+                                "${AppLocalizations.of(context)!.feels_like} ${convertUnit(weatherData.temperature.feelsLike)}",
+                                style: TextStyle(fontSize: 20),
+                              );
+                            },
+                          ),
+                          ValueListenableBuilder(
+                            valueListenable: unitNotifier,
+                            builder: (context, unit, _) {
+                              switch (unit) {
+                                case "cel":
+                                  return Icon(WeatherIcons.celsius, size: 25);
+                                case "fah":
+                                  return Icon(
+                                    WeatherIcons.fahrenheit,
+                                    size: 25,
+                                  );
+                                case "kel":
+                                  return Text(
+                                    " K",
+                                    style: TextStyle(fontSize: 20),
+                                  );
+                                default:
+                                  return Icon(WeatherIcons.celsius, size: 25);
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ValueListenableBuilder(
+                            valueListenable: unitNotifier,
+                            builder: (context, unit, _) {
+                              return Text(
+                                "${AppLocalizations.of(context)!.max} ${convertUnit(weatherData.temperature.tempMax)}",
+                                style: TextStyle(fontSize: 20),
+                              );
+                            },
+                          ),
+                          ValueListenableBuilder(
+                            valueListenable: unitNotifier,
+                            builder: (context, unit, _) {
+                              switch (unit) {
+                                case "cel":
+                                  return Icon(WeatherIcons.celsius, size: 25);
+                                case "fah":
+                                  return Icon(
+                                    WeatherIcons.fahrenheit,
+                                    size: 25,
+                                  );
+                                case "kel":
+                                  return Text(
+                                    " K",
+                                    style: TextStyle(fontSize: 20),
+                                  );
+                                default:
+                                  return Icon(WeatherIcons.celsius, size: 25);
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ValueListenableBuilder(
+                            valueListenable: unitNotifier,
+                            builder: (context, unit, _) {
+                              return Text(
+                                "${AppLocalizations.of(context)!.min} ${convertUnit(weatherData.temperature.tempMin)}",
+                                style: TextStyle(fontSize: 20),
+                              );
+                            },
+                          ),
+                          ValueListenableBuilder(
+                            valueListenable: unitNotifier,
+                            builder: (context, unit, _) {
+                              switch (unit) {
+                                case "cel":
+                                  return Icon(WeatherIcons.celsius, size: 25);
+                                case "fah":
+                                  return Icon(
+                                    WeatherIcons.fahrenheit,
+                                    size: 25,
+                                  );
+                                case "kel":
+                                  return Text(
+                                    " K",
+                                    style: TextStyle(fontSize: 20),
+                                  );
+                                default:
+                                  return Icon(WeatherIcons.celsius, size: 25);
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+                },
               );
             } else {
               return SingleChildScrollView(
