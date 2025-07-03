@@ -2,7 +2,6 @@ import 'package:csweather/globals.dart';
 import 'package:csweather/l10n/app_localizations.dart';
 import 'package:csweather/types/conversion.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:open_weather_client/open_weather.dart';
 import 'package:weather_icons/weather_icons.dart';
 

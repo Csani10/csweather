@@ -92,7 +92,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<MainPage> {
-  int current_page = 0;
+  int currentPage = 0;
 
   List<Widget> pages = [];
 
@@ -103,9 +103,8 @@ class _MyWidgetState extends State<MainPage> {
   }
 
   void onNavBarTap(int selected) {
-    print(selected);
     setState(() {
-      current_page = selected;
+      currentPage = selected;
     });
   }
 
@@ -113,7 +112,7 @@ class _MyWidgetState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: current_page,
+        currentIndex: currentPage,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.today),
@@ -133,7 +132,7 @@ class _MyWidgetState extends State<MainPage> {
         ],
         onTap: onNavBarTap,
       ),
-      body: IndexedStack(index: current_page, children: pages),
+      body: IndexedStack(index: currentPage, children: pages),
     );
   }
 }

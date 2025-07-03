@@ -4,7 +4,7 @@ import "package:flutter/material.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
 class SettingsPage extends StatefulWidget {
-  SettingsPage({super.key});
+  const SettingsPage({super.key});
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -153,7 +153,6 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void onLangSelected(Object? value) {
-    print(value.runtimeType);
     localeNotifier.value = value as Locale;
     saveSettings();
   }
