@@ -1,26 +1,57 @@
 import 'package:csweather/globals.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:open_weather_client/enums/languages.dart';
 
 import 'package:weather_icons/weather_icons.dart';
 
-class Weatherdata {
-  Weatherdata();
-
-  String city = "";
-  String iconCode = "01d";
-  String look = "";
-  String desc = "";
-  String unit = "cel";
-  double temp = 6969;
-  double tempMax = 6969;
-  double tempMin = 6969;
-  double feelslike = 6969;
-
-  dynamic jsonData;
-}
+Map<String, Languages> languageCodeToEnum = {
+  'af': Languages.AFRIKAANS,
+  'al': Languages.ALBANIAN,
+  'ar': Languages.ARABIC,
+  'az': Languages.AZERBAIJANI,
+  'bg': Languages.BULGARIAN,
+  'ca': Languages.CATALAN,
+  'cz': Languages.CZECH,
+  'da': Languages.DANISH,
+  'de': Languages.GERMAN,
+  'el': Languages.GREEK,
+  'en': Languages.ENGLISH,
+  'eu': Languages.BASQUE,
+  'fa': Languages.PERSIAN_FARSI,
+  'fi': Languages.FINNISH,
+  'fr': Languages.FRENCH,
+  'gl': Languages.GALICIAN,
+  'he': Languages.HEBREW,
+  'hi': Languages.HINDI,
+  'hr': Languages.CROATIAN,
+  'hu': Languages.HUNGARIAN,
+  'id': Languages.INDONESIAN,
+  'it': Languages.ITALIAN,
+  'ja': Languages.JAPANESE,
+  'kr': Languages.KOREAN,
+  'la': Languages.LATVIAN,
+  'lt': Languages.LITHUANIAN,
+  'mk': Languages.MACEDONIAN,
+  'no': Languages.NORWEGIAN,
+  'nl': Languages.DUTCH,
+  'pl': Languages.POLISH,
+  'pt': Languages.PORTUGUESE,
+  'pt_br': Languages.PORTUGUESE_BRAZIL,
+  'ro': Languages.ROMANIAN,
+  'ru': Languages.RUSSIAN,
+  'sv': Languages.SWEDISH,
+  'sk': Languages.SLOVAK,
+  'sl': Languages.SLOVENIAN,
+  'sp': Languages.SPANISH,
+  'sr': Languages.SERBIAN,
+  'th': Languages.THAI,
+  'tr': Languages.TURKISH,
+  'ua': Languages.UKRAINIAN,
+  'vi': Languages.VIETNAMESE,
+  'zh_cn': Languages.CHINESE_SIMPLIFIED,
+  'zh_tw': Languages.CHINESE_TRADITIONAL,
+  'zu': Languages.ZULU,
+};
 
 IconData iconCodeToIconData(String code) {
   switch (code) {
@@ -84,34 +115,4 @@ double convertUnit(double kelvin) {
     default:
       return kelvinToCelsius(kelvin);
   }
-}
-
-Future<Weatherdata> getCurrentWeather(String city) async {
-  final url = Uri.parse(
-    "${dotenv.env["API_URL"]}weather?q=$city&appid=${dotenv.env["API_KEY"]}&lang=${localeNotifier.value.languageCode}",
-  );
-
-  try {
-    final resp = await http.get(url);
-    if (resp.statusCode == 200) {
-      final data = json.decode(resp.body);
-      print(data);
-
-      Weatherdata wData = Weatherdata();
-      wData.temp = data["main"]["temp"];
-      wData.tempMax = data["main"]["temp_max"];
-      wData.tempMin = data["main"]["temp_min"];
-      wData.feelslike = data["main"]["feels_like"];
-      wData.look = data["weather"][0]["main"];
-      wData.desc = capitalize(data["weather"][0]["description"]);
-      wData.city = city;
-      wData.iconCode = data["weather"][0]["icon"];
-      wData.jsonData = data;
-      return wData;
-    }
-  } catch (e) {
-    print(e);
-  }
-
-  return Weatherdata();
 }

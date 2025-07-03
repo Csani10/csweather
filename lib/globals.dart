@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:open_weather_client/open_weather.dart';
 
 late final VoidCallback toggleTheme;
 TextEditingController cityController = TextEditingController(
@@ -15,3 +16,5 @@ String capitalize(String s) {
   if (s.isEmpty) return s;
   return s[0].toUpperCase() + s.substring(1);
 }
+
+late OpenWeather openWeather;

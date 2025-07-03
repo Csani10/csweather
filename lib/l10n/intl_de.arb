@@ -13,7 +13,7 @@
   "city": "Stadt:",
   "unit": "Einheit:",
   "today_tooltip": "Sehen Sie sich das heutige Wetter an",
-  "forecast_tooltip": "Sehen Sie sich das Wetter für die nächsten 7 Tage an",
+  "forecast_tooltip": "Sehen Sie sich das Wetter für die nächsten 5 Tage an",
   "settings_tooltip": "App-Einstellungen bearbeiten",
   "lang": "Sprache: ",
   "city_hint": "Stadt name...",

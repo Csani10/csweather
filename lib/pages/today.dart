@@ -1,7 +1,9 @@
 import 'package:csweather/globals.dart';
 import 'package:csweather/l10n/app_localizations.dart';
-import 'package:csweather/types/weatherdata.dart';
+import 'package:csweather/types/conversion.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:open_weather_client/open_weather.dart';
 import 'package:weather_icons/weather_icons.dart';
 
 class TodayPage extends StatefulWidget {
@@ -12,7 +14,7 @@ class TodayPage extends StatefulWidget {
 }
 
 class _TodayPageState extends State<TodayPage> {
-  late Future<Weatherdata> _weatherDataFuture;
+  late Future<WeatherData> _weatherDataFuture;
 
   @override
   void initState() {
@@ -21,8 +23,12 @@ class _TodayPageState extends State<TodayPage> {
     setState(() {});
   }
 
-  Future<Weatherdata> _loadWeather() async {
-    return await getCurrentWeather(cityController.text);
+  Future<WeatherData> _loadWeather() async {
+    return await openWeather.currentWeatherByCityName(
+      cityName: cityController.text,
+      language: languageCodeToEnum[localeNotifier.value.languageCode],
+      weatherUnits: WeatherUnits.STANDARD,
+    );
   }
 
   @override
@@ -56,7 +62,7 @@ class _TodayPageState extends State<TodayPage> {
                 kToolbarHeight -
                 MediaQuery.of(context).padding.top,
             alignment: Alignment.center,
-            child: FutureBuilder<Weatherdata>(
+            child: FutureBuilder<WeatherData>(
               future: _weatherDataFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -70,21 +76,21 @@ class _TodayPageState extends State<TodayPage> {
                       Padding(
                         padding: EdgeInsets.all(1),
                         child: Text(
-                          snapshot.data!.city,
+                          snapshot.data!.name.toString(),
                           style: TextStyle(fontSize: 35),
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.all(16),
                         child: Icon(
-                          iconCodeToIconData(snapshot.data!.iconCode),
+                          iconCodeToIconData(snapshot.data!.details[0].icon),
                           size: 128,
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 16.0),
                         child: Text(
-                          snapshot.data!.desc,
+                          snapshot.data!.details[0].weatherLongDescription,
                           style: TextStyle(fontSize: 30),
                         ),
                       ),
@@ -95,7 +101,7 @@ class _TodayPageState extends State<TodayPage> {
                             valueListenable: unitNotifier,
                             builder: (context, unit, _) {
                               return Text(
-                                "${convertUnit(snapshot.data!.temp)}",
+                                "${convertUnit(snapshot.data!.temperature.currentTemperature)}",
                                 style: TextStyle(fontSize: 25),
                               );
                             },
@@ -130,7 +136,7 @@ class _TodayPageState extends State<TodayPage> {
                             valueListenable: unitNotifier,
                             builder: (context, unit, _) {
                               return Text(
-                                "${AppLocalizations.of(context)!.feels_like} ${convertUnit(snapshot.data!.feelslike)}",
+                                "${AppLocalizations.of(context)!.feels_like} ${convertUnit(snapshot.data!.temperature.feelsLike)}",
                                 style: TextStyle(fontSize: 20),
                               );
                             },
@@ -165,7 +171,7 @@ class _TodayPageState extends State<TodayPage> {
                             valueListenable: unitNotifier,
                             builder: (context, unit, _) {
                               return Text(
-                                "${AppLocalizations.of(context)!.max} ${convertUnit(snapshot.data!.tempMax)}",
+                                "${AppLocalizations.of(context)!.max} ${convertUnit(snapshot.data!.temperature.tempMax)}",
                                 style: TextStyle(fontSize: 20),
                               );
                             },
@@ -200,7 +206,7 @@ class _TodayPageState extends State<TodayPage> {
                             valueListenable: unitNotifier,
                             builder: (context, unit, _) {
                               return Text(
-                                "${AppLocalizations.of(context)!.min} ${convertUnit(snapshot.data!.tempMin)}",
+                                "${AppLocalizations.of(context)!.min} ${convertUnit(snapshot.data!.temperature.tempMin)}",
                                 style: TextStyle(fontSize: 20),
                               );
                             },

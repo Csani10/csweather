@@ -6,9 +6,11 @@ import 'package:csweather/pages/today.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:open_weather_client/services/open_weather_api_service.dart';
 
 Future<void> main() async {
   await dotenv.load();
+  openWeather = OpenWeather(apiKey: dotenv.env["API_KEY"] ?? "");
   runApp(const MyApp());
 }
 
